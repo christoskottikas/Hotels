@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bootstrap Trivago</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .bg-orange {
+            background-color: orange;
+        }
+
+        /* Slider */
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 15px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+
+        /* End of slider */
+    </style>
+</head>
+
+<body class="bg-white">
+    <div class="container bg-white mt-4 shadow p-3 mb-5 bg-white rounded">
+
+
+        <nav class="container bg-dark">
+            <!-- Search -->
+            <form id="hotels-form">
+                <div style="padding-top: 1%;" class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                    </div>
+                    <input list="cities" id="city-input" class="form-control" type="search" autocomplete="on"
+                        placeholder="Search" aria-label="Search">
+                    <datalist id="cities"></datalist>
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                </div>
+            </form>
+            <!-- End of Search -->
+
+            <div class="row">
+                <!-- Check-in -->
+                <div class="col-md-4 border border-dark">
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                        <input type="text" id="checkIn" placeholder=" Check-in" class="form-control"
+                            style="border-bottom-right-radius: 5px; border-top-right-radius: 5px">
+                    </div>
+                </div>
+                <!-- End of Check-in -->
+                <!-- Check-out -->
+                <div class="col-md-4 border border-dark">
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                        <input type="text" id="checkOut" placeholder=" Check-out" class="form-control"
+                            style="border-bottom-right-radius: 5px; border-top-right-radius: 5px">
+                    </div>
+                </div>
+                <!-- End of Check-out -->
+                <!-- Family rooms -->
+                <div class="col-md-4 mb-2" style="color: white;">
+                    <!-- <div class="btn-group">
+                        <button type="button" class="btn btn-secondary">Family rooms</button>
+                        <button id="roomType" type="button"
+                            class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu" id="test">
+                            <button type="button" class="dropdown-item" id="singleRoom"></button>
+                            <button type="button" class="dropdown-item" id="doubleRoom"></button>
+                            <button type="button" class="dropdown-item" id="familyRoom"></button>
+                        </div>
+                    </div> -->
+                    <select class="form-control" id="roomType"></select>
+                    <!-- End of Family rooms -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 border-right mb-2" style="color: white; border-right: 10px; border-color: white;">
+                    <div class="slidecontainer">
+                        Price: <span id="demo"></span> $
+                        <input type="range" min="1" max="1500" value="750" class="slider" id="myRange">
+
+                    </div>
+                </div>
+                <div class="col-md-2 border-right mb-2" style="color: white;">
+                    <select class="form-control " id="propertyType">
+                        <option value="" disabled selected>Property type</option>
+                        <option value="1" class="fa fa-star ">&#xf005 </option>
+                        <option value="2" class="fa fa-star ">&#xf005 &#xf005</option>
+                        <option value="3" class="fa fa-star ">&#xf005 &#xf005 &#xf005</option>
+                        <option value="4" class="fa fa-star ">&#xf005 &#xf005 &#xf005 &#xf005 </option>
+                        <option value="5" class="fa fa-star ">&#xf005 &#xf005 &#xf005 &#xf005 &#xf005</option>
+                    </select>
+                </div>
+                <div class="col-md-2 border-right mb-2" style="color: white;">
+                    <select class="form-control" id="guestRating">
+                        <option value="" disabled selected>Guest rating</option>
+                        <option value="Okay">0-2 Okay</option>
+                        <option value="Fair">2-6 Fair</option>
+                        <option value="Good">6-7 Good</option>
+                        <option value="Very Good">7-8.5 Very Good</option>
+                        <option value="Excellent">8.5-10 Excellent</option>
+                    </select></div>
+                <div class="col-md-2 border-right mb-2" style="color: white;">
+                    <select class="form-control" id="hotelLocation"></select></div>
+                <div class="col-md-2 mb-2" style="color: white;">
+                    <select class="form-control" id="moreFilters">
+                        <option value="" disabled selected>More filters</option>
+                    </select></div>
+            </div>
+
+        </nav>
+
+        <div class="row">
+            <div class="col-md-4 mt-2" id="map"></div>
+            <div class="col-md-2"></div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4 mt-2"><select class="form-control" id="sort-by"></select></div>
+        </div>
+
+        <main class="container bg-white mt-4">
+            <div id="row"></div>
+        </main>
+
+
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+        </script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        jQuery(init);
+        function init($) {
+
+            $('#sort-by').hide(); //Hide Sort-by input
+
+            const URL = "data.json";
+            const options = {
+                url: URL,
+                success: handleRequest
+            };
+            $.ajax(options);
+
+            let roomOptions;
+            let hotelsData = []; //variable for functions: handleRequest, handleSubmit
+
+            function handleRequest(data) {
+                hotelsData = data[1].entries;
+                // console.log(hotelsData);
+                const searchList = document.querySelector("#cities");
+
+                let options = "";
+                for (let i = 0; i < hotelsData.length; i++) {
+                    const option = "<option value='" + hotelsData[i].city + "'></option>";
+                    options += option;
+                }
+                // console.log(options);
+                searchList.innerHTML = options;
+
+
+                roomOptionsList = data[0].roomtypes;
+                // console.log(roomOptions);
+                const roomOption = document.querySelector("#roomType");
+                let roomOptions = [];
+                roomOptionsList.map(function (roomType) {
+                    const disabledOption = `<option value="" disabled selected>Room types</option>`
+                    const option = `<option value ="${roomType.name}">${roomType.name}</option>`
+                    roomOptions.push(disabledOption);
+                    roomOptions.push(option);
+                })
+                roomOptions = Array.from(new Set(roomOptions));
+                roomOption.innerHTML = roomOptions;
+
+
+                // document.querySelector('#roomType').addEventListener("change", function () {
+                //     let result = $('#roomType').get(0).value
+                //     console.log(result);
+                // })
+
+                // Dynamic fill of property type dropdown from JSON
+                // const propertyTypeOption = document.querySelector("#propertyType");
+                // let propertyTypeOptions = [];
+                // hotelsData.map(function (propertyType) {
+                //     const disabledOption = `<option value="" disabled selected>Property type</option>`
+                //     const option = `<option value ="${propertyType.rating}">${propertyType.rating}</option>`
+                //     propertyTypeOptions.push(disabledOption);
+                //     propertyTypeOptions.push(option);
+                // })
+                // propertyTypeOptions = Array.from(new Set(propertyTypeOptions));
+                // propertyTypeOption.innerHTML = propertyTypeOptions;
+
+
+                // document.querySelector('#propertyType').addEventListener("change", function () {
+                //     let result = $('#propertyType').get(0).value
+                //     // console.log(result);
+                // })
+
+                // Dynamic fill of guest rating dropdown from JSON
+                // const guestRatingOption = document.querySelector("#guestRating");
+                // guestRatingOptions = [];
+                // hotelsData.map(function (guestRating) {
+                //     const disabledOption = `<option value="" disabled selected>Guest rating</option>`
+                //     const option = `<option value ="${guestRating.ratings.no}">${guestRating.ratings.no}-${guestRating.ratings.text} </option>`
+                //     guestRatingOptions.push(disabledOption);
+                //     guestRatingOptions.push(option);
+                // })
+                // guestRatingOptions = Array.from(new Set(guestRatingOptions));
+                // guestRatingOption.innerHTML = guestRatingOptions;
+
+                const hotelLocationOption = document.querySelector("#hotelLocation")
+                hotelLocationOptions = [];
+                hotelsData.map(function (hotelLocation) {
+                    const disabledOption = `<option value="" disabled selected>Hotel location</option>`
+                    const option = `<option value ="${hotelLocation.city}">${hotelLocation.city}</option>`
+                    hotelLocationOptions.push(disabledOption);
+                    hotelLocationOptions.push(option);
+                })
+                hotelLocationOptions = Array.from(new Set(hotelLocationOptions));
+                hotelLocationOption.innerHTML = hotelLocationOptions;
+
+
+                // const moreFiltersOption = document.querySelector("#moreFilters")
+                // moreFiltersOptions = [];
+                // hotelsData.map(function (moreFilters) {
+                //     const disabledOption = `<option value="" disabled selected>Property type</option>`
+                //     const option = `<option value ="${moreFilters.ratings.no}">${moreFilters.ratings.no}</option>`
+                //     propertyTypeOptions.push(disabledOption);
+                //     propertyTypeOptions.push(option);
+                // })   
+            }
+
+
+            document.querySelector("#hotels-form").addEventListener("submit", handleSubmit);
+            function handleSubmit(event) {
+                event.preventDefault();
+                row.innerHTML = "";
+                // Results from search
+                const cityInputSearch = document.querySelector("#city-input");
+                // console.log(cityInputSearch.value);
+                function selectedSearchInput(hotel) {
+                    return hotel.city.toUpperCase() === cityInputSearch.value.toUpperCase();
+                }
+                var citySelectedSearch = hotelsData.filter(selectedSearchInput);
+                citySelectedSearch.map(displayHotels);
+                // End of Results from search
+
+                // -----------------------------------------------------------------------------
+                // Results from property type input
+                const propertyTypeInput = document.querySelector("#propertyType");
+                // console.log(propertyTypeInput.value);
+                function selectedPropertyTypeInput(hotel) {
+                    return hotel.rating == propertyTypeInput.value;
+                }
+                var propertyTypeSelected = hotelsData.filter(selectedPropertyTypeInput);
+                propertyTypeSelected.map(displayHotels);
+                // End of Results from property type input
+
+                // -----------------------------------------------------------------------------
+                // Results from guest rating input
+                const guestRatingInput = document.querySelector("#guestRating")
+                // console.log(guestRatingInput.value);
+
+                function selectedGuestRatingInput(hotel) {
+                    return hotel.ratings.text.toUpperCase() === guestRatingInput.value.toUpperCase();
+                }
+                var guestRatingSelected = hotelsData.filter(selectedGuestRatingInput);
+                guestRatingSelected.map(displayHotels);
+                // End ofResults from guest rating input
+
+                // -----------------------------------------------------------------------------
+                // Results from city input
+                const cityInput = document.querySelector("#hotelLocation");
+                // console.log(cityInput.value);
+                function selectedHotelLocation(hotel) {
+                    return hotel.city.toUpperCase() === cityInput.value.toUpperCase();
+                }
+                var hotelLocationSelected = hotelsData.filter(selectedHotelLocation);
+                hotelLocationSelected.map(displayHotels);
+                // End of Results from city input
+
+                // Map
+                const map = document.querySelector("#map");
+                temp = `
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d83998.94722687619!2d2.277019841665155!3d48.8588377391234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sgr!4v1554987763683!5m2!1sen!2sgr"></iframe>`;
+                map.innerHTML = temp;
+                // Emd of Map  
+            }
+
+
+            function displayHotels(hotel) {
+                const row = document.querySelector("#row");
+
+                let starOption = "";
+                for (let j = 0; j < hotel.rating; j++) {
+                    opt = `<i class="fa fa-star" aria-hidden="true"></i>`;
+                    starOption += opt;
+                }
+
+                const template = `
+                    <div class="container shadow-lg p-3 mb-4 bg-white rounded">
+                    <div class="row border border-dark ">
+                    <div class="col-4">
+                        <img class="img-fluid"
+                        src="${hotel.thumbnail}"
+                        alt="${hotel.hotelName}" />
+                    </div>
+                    <div class="col-4 border-right border-left ">
+                    <p><strong>${hotel.hotelName}</strong></p>
+                    <p >` + starOption + `</p>
+                    <p class="text-info"><span class="text-dark">Location: </span>${hotel.city}</p>
+                    <h3 class="badge badge-success text-wrap">${hotel.ratings.no} ${hotel.ratings.text} </h3>
+                    </div>
+                    <div class="col-4 text-center">
+                        <p class="text-success">Hotel Website</p>
+                        <p class="text-success">$${hotel.price}</p>
+                        <div class="btn-group dropright">
+                        <p><button class="btn btn-success dropdown-toggle" type="button">View Deal</button></p>
+                        </div>
+                    </div>
+                    </div>
+                    </div>`;
+                row.innerHTML += template;
+
+                // Sort by
+                $('#sort-by').show();
+                const sort = document.querySelector("#sort-by");
+                sortOptions = [];
+
+                // for(let i = 0; i < hotel.filters.length; i++){
+                //     console.log(hotel.filters.length);
+                //     console.log(hotel);
+                //     const disabledOption = `<option value="" disabled selected>Sort by</option>`
+                //     const option = `<option value ="${hotel.filters[i].name}">${hotel.filters[i].name}</option>`
+
+                //     sortOptions.push(disabledOption);
+                //     sortOptions.push(option);
+                // }
+                hotel.filters.map(function (filt) {
+                    const disabledOption = `<option value="" disabled selected>Sort by</option>`
+                    const option = `<option value ="${filt.name}">${filt.name}</option>`
+                    sortOptions.push(disabledOption);
+                    sortOptions.push(option);
+                })
+
+                sortOptions = Array.from(new Set(sortOptions));
+                sort.innerHTML = sortOptions;
+                // End of Sort by
+            }
+
+
+            // Sort-by On-Change
+            sortByInput = document.querySelector("#sort-by");
+            document.querySelector("#sort-by").addEventListener("change", function () {
+                function selectedSortByInput(hotel) {
+                    console.log(hotel.filters.name);
+                    return hotel.filters[0].name.toUpperCase() === sortByInput.value.toUpperCase(); //to filters[0] den einai swsto alla den mporesa na to parw dunamika
+                }
+
+                var sortByInputSelected = hotelsData.filter(selectedSortByInput);
+                sortByInputSelected.map(displayHotels);
+            });
+            // End of Sort-by On-Change
+
+
+            // Date
+            $(function () {
+                $("#checkIn").datepicker();
+            });
+            $(function () {
+                $("#checkOut").datepicker();
+            });
+            // End of date
+
+
+            // Price slider
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("demo");
+            output.innerHTML = slider.value;
+
+            slider.oninput = function () {
+                row.innerHTML = "";
+                output.innerHTML = this.value;
+                function selectedPrice(hotel) {
+                    return hotel.price <= slider.value;
+                }
+                var priceSelected = hotelsData.filter(selectedPrice);
+                priceSelected.map(displayHotels);
+            }
+            // End of price slider
+        }
+    </script>
+
+</body>
+
+</html>
